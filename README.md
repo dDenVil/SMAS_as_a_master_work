@@ -159,9 +159,7 @@ I've also learned about electrical mio-stimulator. It works like massager by pas
 
 ![EMS](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/EMS.jpg)
 
-To connect SMAS to shutter blinds I made **smart-home device**. It was built on NodeMCU as well, and it can control every light source in my room, open/ close blinds, has timers... It has a lot of other features. But it is already another long long story. Scheme is [here](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/scheme_smart_room.png). It has the next menu screens:
-
-![smart-disp](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/smart-display.jpg)
+To connect SMAS to shutter blinds I made **smart-home device**. It was built on NodeMCU as well, and it can control every light source in my room, open/ close blinds, has timers... It has a lot of other features. But it is already another long long story. Scheme is [here](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/scheme_smart_room.png). 
 
 # PHYSICAL IMPLEMENTATION OF THE SMAS 
 
@@ -335,6 +333,9 @@ As I said before, I wanted to make smart-home module.
 
 This actuator control unit can be considered part of the so-called "smart room". The system can work both independently and with a measurement system.
 With the help of the actuator system, you can implement the functions of falling into **lucid dreams and bio-alarm clock**.
+It has the next menu screens:
+
+![smart-disp](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/smart-display.jpg)
 
 In the simplest form, in order to fall into **lucid dreams**, you need to turn on the timer for 5 hours before falling asleep, and after the time expires, with a certain intensity, smoothly control the color of the LED strip controlled by an IR LED. This light effect will allow you to realize yourself in a dream, but if a person is in the phase of REM sleep.
 
