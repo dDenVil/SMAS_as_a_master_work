@@ -35,7 +35,7 @@ The main method of studying human sleep is **polysomnography** (PSG). This is a 
 
 The combination of these three indicators allows you to determine in which stage of sleep a person is at any moment of time. Based on the results of the sleep recording, a time schedule of sleep is built - **a hypnogram**.
 
-![Sleep hypnogram]()
+![Sleep hypnogram](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/Sleep_Hypnogram.png)
 
 In order to obtain data not only about the structure of sleep, but also diseases related to sleep, several more indicators are registered with PSG:
 - Flow of exhaled air from the mouth and nostrils;
@@ -49,7 +49,7 @@ In order to obtain data not only about the structure of sleep, but also diseases
 
 The structure of human sleep includes two phases: slow sleep (**Non-REM**) and rapid sleep (**REM** – Rapid Eye Movement).
 
-![cycles]()
+![cycles](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/cycles_of_sleep.jpg)
 
 **What Happens During Non-REM Sleep?**
 There are three phases of non-REM sleep. Each stage can last from 5 to 15 minutes. You go through all three phases before reaching REM sleep ([source)](https://www.webmd.com/sleep-disorders/sleep-101).
@@ -139,24 +139,24 @@ At the moment, the **idea of this device** is as follows (ideal):
 - Actuators for lucid dreams (sound, light, vibrations);
 - Actuators for bio-alarm clock (sound, light, vibrations, natural lighting).
 
-![functional scheme]()
+![functional scheme](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/func.png)
 `It is divided into the blocks of: sensors, actuators, additional modules, microcontroller and power supply `
 
-**The microcontroller** [NodeMCU]() v3 was chosen because of Wi-Fi.
-**Sensor of ECG** [(pic) ]() is build on AD8232 and can meassure ECG with help of 3 electrodes.
-**Pulse sensor** [(pic) ]()this is an alternative to previous sensor. This one based on photoplethysmography method.
+**The microcontroller** [NodeMCU](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/MC.png) v3 was chosen because of Wi-Fi.
+**Sensor of ECG** [(pic) ](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/ecgsens.png) is build on AD8232 and can meassure ECG with help of 3 electrodes.
+**Pulse sensor** [(pic) ](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/pulsesens.png)this is an alternative to previous sensor. This one based on photoplethysmography method.
 **Temperature and humidity sensor**  is a cheap digital sensor DHT11.
 **To register breathing** we can use microphone and with help of software detect it.
 **To determine the position of the body** we can use accelerometer and gyroscope MPU-6050 GY-521.
 **Base Actuators** - the goal is to wake up human at a certain time and help to enter lucid dreams. So we can use LED's and piezo speaker or with help of smartphone noticatications.
 **Specific actuators** - I wanted to wake up to the light of the sun, so I designed shutter blinds opening system. That consist of H-bridge PCB, hole-effect sensor and gear motor.
-![blinds system]()
+![blinds system](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/window.png)
 
-![H-bridgePCB]()
+![H-bridgePCB](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/Hbridge.jpg)
 
 I've also learned about electrical mio-stimulator. It works like massager by passing current impulse through your body. So I meant it to use it before sleep like a massager to help relax your body and improve sleep. So I had to make it.
 
-![EMS]()
+![EMS](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/EMS.jpg)
 
 To connect SMAS to shutter blinds I made** smart-home device**. It was built on NodeMCU as well, and it can control every light source in my room, open/ close blinds, has timers... It has a lot of other features. But it is already another long long story. Scheme is [here]().
 
@@ -164,18 +164,18 @@ To connect SMAS to shutter blinds I made** smart-home device**. It was built on 
 
 To create an electrical circuit, we will first create a connection diagram of all components and their power supply. Red and black are the power buses, green is the data bus (I2C, SPI, analog and digital I/O). Blue lines are control lines.
 
-![connections]()
+![connections](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/connect.png)
 
 As you can see, to connect the actuators through a direct connection, it is necessary to use the shift register 74HC595, which allows you to increase the number of outputs. 
 
 Fortunately, this shift register works on the SPI interface, so we will connect it to the pins used for the SD card module and one I/O for CS. To increase the number of inputs, a 74HC165 input shift register could be used, which would also allow an unlimited number of digital sensors to be connected.
 It is believed that the actuators will be connected using a power key, some of them through a driver. The SD card module, time and shift register will be powered from the power system, and the display and ECG sensor will be powered from the microcontroller.
 
-![Electrical scheme]()
+![Electrical scheme](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/Elecscheme.png)
 
 The scheme is created in the maximum configuration with the expectation of its improvement or modification. We understand that the manufactured device is a prototype and will undoubtedly require drastic changes in the future, but to check its performance and capabilities, this option allows you to reveal all its capabilities.
 
-![PCB look]()
+![PCB look](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/PCB.png)
 
 I wanted to order PCB from JLCPCB, but with war that had started in my country it was impossible. So I did it by myself. Tried to make it with help of negative photoresist, but failed 1st attempt and didn't have enough film for the next. So I was left iron method.
 
@@ -190,11 +190,11 @@ I wanted to order PCB from JLCPCB, but with war that had started in my country i
 • **Toner removal **– all available methods were used, namely sodium hydroxide, acetone, sandpaper to remove the toner that protected the copper tracks from etching.
 • **Drilling holes**.
 
-![Steps]()
+![Steps](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/steps.png)
 
 The ready prototype is looking like this:
 
-![Ready]()
+![Ready](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/ready.png)
 
 
 # SOFTWARE
@@ -220,33 +220,33 @@ All the code will be implemented in the **ArduinoIDE** environment, using librar
 Reading is the easiest step, since at the output of the sensor we have an analog value, to get it, you need to use the analogRead(A0) function. We will receive a signal every 2 ms for more stable MK operation.
 We will use the serial connection port and get the first received data in graphic form.
 
-![input]()
+![input](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/input%20sig.png)
 
 #### Filtration
 As we can see, there are noises and defects in the received data. First of all, this signal can be filtered using certain filters. Several filters were used, namely: **Arithmetic Mean, Moving Average, Optimal Moving Average, Exponential Moving Average, Kalman Filter.** The filters were taken from the AlexGyver site.
 
-![qrst]()
-`For a better understanding of the following figures, you will need an image of the QRST complex`
+![pqrst](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/pqrst.png)
+`For a better understanding of the following figures, you will need an image of the PQRST complex`
 
 In each of the subsequent figures, **the input data is marked in blue**, and **the filtered data in red.**
 
 For each filter, it was necessary to select parameters that would best remove noise from our data. In the figures below you can see how each of the filters affected the signal.
 
 Results of every filter are here:
-1. [Arithmetic mean]()
-2. [Optimal running average]()
-3. [Exponential moving average]()
-4. [Moving average with an adaptive coefficient]()
-5. [Integer filter]()
-6. [Median filter]()
-7. [A simple Kalman filter]()
-8. [Combination of two filters: "Kalman" and exponential moving average]()
+1. [Arithmetic mean](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/filters/mean.jpg)
+2. [Optimal moving average](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/filters/opt_mov.jpg)
+3. [Exponential moving average](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/filters/exp_mov_av.jpg)
+4. [Moving average with an adaptive coefficient](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/filters/mov_av.jpg)
+5. [Integer filter](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/filters/intereger.jpg)
+6. [Median filter](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/filters/median.jpg)
+7. [A simple Kalman filter](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/filters/kalman.jpg)
+8. [Combination of two filters: "Kalman" and exponential moving average](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/filters/result.jpg)
 
 #### Finding the pulse rate
 
 Another step was to determine the QRS complex for finding the pulse rate. But take into account various traffic noises and errors to get the right result. This problem was solved as follows: **an array window of 11 elements is highlighted, through each of which a value passes.** When the value of element 5 is more than 200 units compared to elements 0 and 10 and the RR-interval takes a certain time interval compared to the previous one, then it is identified as an R-component. The points of definition of this segment are marked in green, and the duration in yellow of each RR-interval in ms., and in purple - heart rate directly (with such a scale - it is not visible).
 
-![pulse]()
+![pulse](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/filters/rate.jpg)
 
 Heart rate was measured by the running average of ten measured intervals. This method does not allow the data to "jump" if there is an error and is generally quite reliable, but at the same time it takes some time to get the initial array of data.
 
@@ -254,7 +254,7 @@ Heart rate was measured by the running average of ten measured intervals. This m
 
 It will be necessary to remove the breathing component, during the measurement you can occasionally notice the presence of a sinusoidal signal, this may be due to the change of the chest, which changes the conductivity between the electrodes, during breathing. To eliminate it, two successive integer filters with the following coefficients (A = 7, B = 1, k = 3) were used.
 
-![sin]()
+![sin](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/filters/harmonic.jpg)
 
 Since this filter has the lowest signal delay and is the fastest, it is the best for this purpose. Then subtract this component from the cleaned signal. Red is the selected sine wave, and green is the cleaned signal.
 
@@ -262,7 +262,7 @@ Since this filter has the lowest signal delay and is the fastest, it is the best
 
 The next step will be taring. Taring – drawing a scale of correspondence between a certain indication of the device (for example, the position of the arrow) and the value of the measured quantity.
 
-![taring]()
+![taring](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/filters/taring.jpg)
 
 Since the ordinate is an unknown value, you can try to bring it closer to the real value, i.e. tare it. To do this, we will use the map() function, which will proportionally change the range of the current value to the new range. From now on, the measured value can be considered in μV, that is, the R wave reaches 1mV, which corresponds to the value of other electrocardiograms.
 
@@ -270,13 +270,13 @@ Since the ordinate is an unknown value, you can try to bring it closer to the re
 
 The last step will be to compress the signal, since this signal contains 200 counts per second, then storing it on an SD card will not be rational and bulky. So with a simple loop, I will only take each N-signal. As a result, it was possible to reduce the volume by almost 6 times, or rather to 34 counts per second.
 
-![compress]()
+![compress](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/filters/compress.jpg)
 
 ## Displaying data on the display
 
 To use the SSD1306 OLED 128x64 display, you will need two libraries from Adafruit, they will allow you to display information on the display.
 
-![display]()
+![display](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/smart-display.jpg)
 `It has the next screens`
 
 For each of the functions listed above, a software function was implemented that allows you to comfortably configure the code. The size of the code for signal calculation and data output takes about 700 lines.
@@ -295,7 +295,7 @@ To work with the memory card, it will need 2 libraries, the interfaces of which 
 
 All data will be formatted in such a way that writing to the memory card will occur every second. This means that up to 30,000 rows of data will be generated in 8 hours of device operation.
 
-![SD]()
+![SD](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/SD.png)
 
 A new text file is created every night, regardless of the number of runs, there will only be 1 file in the following format: `Night_m(month in numeric format)_d(day).txt`. The identification of a new night occurs after 12 noon. So if you go to bed on February 25th at 12:30 and wake up on February 26th at 10:00 AM, or go to bed at 2:00 AM on February 26th and wake up on February 26th at 10:00 AM, there will only be one file called `Night_m2_d25`.
 In the event of a module malfunction, the system will notify you. There is an indicator on the display that indicates the successful saving of data to the storage medium.
@@ -310,7 +310,7 @@ There are three ways to manage and monitor system parameters.
 
 Usually, the first and second methods can be combined. It should be borne in mind that connecting to SMAS is possible only if the device and the user are connected to the same Wi-Fi network.
 
-![Web server]()
+![Web server](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/web.jpg)
 
 **The last option** is to create a connection using an **MQTT server**, which will allow you to connect to the network from anywhere in the world. This method was tested by me when I studied under the Erasmus program in another country. During that period, I needed access to a computer and lighting control of the growbox (diploma), so developing an application in the above-mentioned environment, for the period of studying abroad, it was an irreplaceable option. But the disadvantage of this method is the need for a paid subscription to maintain your own MQTT server.
 
@@ -341,13 +341,13 @@ A similar principle must be used to implement the **bio-alarm system**. That is,
 
 The created log created 26728 lines of data in 8 hours of work, and occupies 8.26 MB of memory. That is, a 2 GB memory card is enough for more than 200 nights, where each hour of recording takes about 1 MB of memory.
 
-![Heart rate]()
+![Heart rate](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/rate.jpg)
 
 In the figure, you can see the change in sleep phases, the REM phase – an increased heart rate (50-55 beats/min), and NON-REM – a low heart rate (40-45 beats/min). With proper filtering and analysis of pulse data, it is possible to realize the function of bio-alarm clock and lucid dream alarm clock.
 
-![DHT11]()
+![DHT11](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/dht11.jpg)
 
 From the graph, you can see how the temperature and humidity changed during the night. The heat index indicates how that temperature felt.
 
-![ECG]()
+![ECG](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/ecg.jpg)
 `Zoomed graph of the  ECG measurement`
