@@ -227,6 +227,7 @@ We will use the serial connection port and get the first received data in graphi
 As we can see, there are noises and defects in the received data. First of all, this signal can be filtered using certain filters. Several filters were used, namely: **Arithmetic Mean, Moving Average, Optimal Moving Average, Exponential Moving Average, Kalman Filter.** The filters were taken from the AlexGyver site.
 
 ![pqrst](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/pqrst.png)
+
 `For a better understanding of the following figures, you will need an image of the PQRST complex`
 
 In each of the subsequent figures, **the input data is marked in blue**, and **the filtered data in red.**
