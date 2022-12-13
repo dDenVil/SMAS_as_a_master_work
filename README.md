@@ -150,6 +150,7 @@ At the moment, the **idea of this device** is as follows (ideal):
 **To determine the position of the body** we can use accelerometer and gyroscope MPU-6050 GY-521.
 **Base Actuators** - the goal is to wake up human at a certain time and help to enter lucid dreams. So we can use LED's and piezo speaker or with help of smartphone noticatications.
 **Specific actuators** - I wanted to wake up to the light of the sun, so I designed shutter blinds opening system. That consist of H-bridge PCB, hole-effect sensor and gear motor.
+
 ![blinds system](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/window.png)
 
 ![H-bridgePCB](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/Hbridge.jpg)
@@ -277,6 +278,7 @@ The last step will be to compress the signal, since this signal contains 200 cou
 To use the SSD1306 OLED 128x64 display, you will need two libraries from Adafruit, they will allow you to display information on the display.
 
 ![display](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/smart-display.jpg)
+
 `It has the next screens`
 
 For each of the functions listed above, a software function was implemented that allows you to comfortably configure the code. The size of the code for signal calculation and data output takes about 700 lines.
@@ -350,4 +352,5 @@ In the figure, you can see the change in sleep phases, the REM phase – an incr
 From the graph, you can see how the temperature and humidity changed during the night. The heat index indicates how that temperature felt.
 
 ![ECG](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/ecg.jpg)
+
 `Zoomed graph of the  ECG measurement`
