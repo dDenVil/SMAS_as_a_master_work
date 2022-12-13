@@ -159,7 +159,9 @@ I've also learned about electrical mio-stimulator. It works like massager by pas
 
 ![EMS](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/EMS.jpg)
 
-To connect SMAS to shutter blinds I made** smart-home device**. It was built on NodeMCU as well, and it can control every light source in my room, open/ close blinds, has timers... It has a lot of other features. But it is already another long long story. Scheme is [here]().
+To connect SMAS to shutter blinds I made **smart-home device**. It was built on NodeMCU as well, and it can control every light source in my room, open/ close blinds, has timers... It has a lot of other features. But it is already another long long story. Scheme is [here](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/scheme_smart_room.png). It has the next menu screens:
+
+![smart-disp](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/smart-display.jpg)
 
 # PHYSICAL IMPLEMENTATION OF THE SMAS 
 
@@ -278,7 +280,7 @@ The last step will be to compress the signal, since this signal contains 200 cou
 
 To use the SSD1306 OLED 128x64 display, you will need two libraries from Adafruit, they will allow you to display information on the display.
 
-![display](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/smart-display.jpg)
+![display](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/display.jpg)
 
 `It has the next screens`
 
