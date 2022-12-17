@@ -6,6 +6,33 @@ The goal of the project is to develop a sleep analysis system, which will be abl
 
 ## Structure
 
+1. [SLEEP AND DREAMS]()
+ 1. [What is polysomnography and hypnogram](#what-is-polysomnography-and-hypnogram)
+ 2. [The structure of sleep](#the-structure-of-sleep)
+ 3. [Circadian rhythms](#circadian-rhythms)
+ 4. [Lucid dreams](#lucid-dreams-ld)
+  1. [Oneironautics](#oneironautics)
+  2. [Techniques of lucid dreams](#techniques-of-lucid-dreams)
+2. [DEVELOPING SMAS](#developing--smas)
+3. [PHYSICAL IMPLEMENTATION OF THE SMAS](#physical-implementation-of-the-smas)
+4. [SOFTWARE](#software)
+ 1. [ECG reading and analysis](#ecg-reading-and-analysis)
+  1. [Filtration](#filtration)
+  2. [Finding the pulse rate](#finding-the-pulse-rate)
+  3. [Removal of the harmonic component](#removal-of-the-harmonic-component)
+  4. [Calibration](#calibration)
+  5. [Compression](#compression)
+ 2. [Displaying data on the display](#displaying-data-on-the-display)
+ 3. [DHT11, RTC module and speaker](#dht11-rtc-module-and-speaker)
+ 4. [Working with memory card and recording format](#working-with-memory-card-and-recording-format)
+ 5. [Remote control](#remote-control)
+ 6. [Actuator control unit (Smart-home)](#actuator-control-unit-smart-home)
+5. [Analysis of measured data](#analysis-of-measured-data)
+6. [Conclusions](#conclusions)
+ 1. [Good decisions](#good-decisions)
+ 2. [Bad decisions](#bad-decisions)
+ 3. [How I would do it now](#how-i-would-do-it-now)
+
 
 ## Automated system for monitoring and analyzing sleep parameters "SMAS"
 So what do I mean by the title of this topic and what I want to achieve.
@@ -358,3 +385,51 @@ From the graph, you can see how the temperature and humidity changed during the 
 ![ECG](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/ecg.jpg)
 
 `Zoomed graph of the  ECG measurement`
+
+# Conclusions
+
+Okey, this is what we have in result: 
+- **SMAS** - system of measurement ECG and few other parameters that saves data to SD-card. Displays graph of ECG , connects to Wi-Fi and can be checked through browser. Built on NodeMCU;
+- **Actuator control unit (Smart-room)** - Build on NodeMCU as well. Controls window blinds and all light sources in the room. Displays time, controled with encoder. Can be controlled both manually and automatically;
+- **Autuator EMS** - electrical mio-stimulator;
+- **Made 3 PCB's**: SMAS, controller for window blinds, EMS;
+- **Code:** 1030 lines for SMAS, 1000 lines for smart-room;
+- ** Matlab code:** 82 lines, draws graphs of data from SD-card.
+
+So let's dive into decisions that was made, some of them are good and some are bad.
+
+### Good decisions:
+.
+- Modularity (using of header pins);
+- Saving data to SD and later analyzing it;
+- Display that show graph of ECG and notify about status of connection and measurements;
+- EMS - was fun to play with it;
+- Board NodeMCU, that can be connected to the Wi-Fi;
+- Actuator control unit  as part of Smart-home;
+- Using of filters for ECG.
+
+### Bad decisions:
+.
+- EMS is useless;
+- Web server is useless;
+- Actuator control unit is unnecessary;
+- Bad connection of electrodes to the body;
+- Uncomfortable to use;
+- Other useless modules (RTC, actuators,);
+- Working from grid power;
+
+### How I would do it now
+
+Now I have absolutely different concept of SMAS:
+- **Battery**. It should work only from battery;
+- **Comfortable**. It should be small and don't have wires;
+- **Indication**. It will have one, maximum 2 LED's. First will show if it works, seconds- blinks with beats of heart;
+- **Control**. The SMAS by it self will have only power switch. Everything will be controlled and displayed on smartphone app;
+- **Actuators** - only 2 LED's and smartphone;
+- Consumes as little power as it is possible.
+
+So it should be triangle PCB, with direct connectors to electrodes. On the top in will have 2 LED's and power switch/ button. It won't have display and will be controled with help of phone.  It powers from the battery. Board should have: charging module for battery, microcontroller, Wi-Fi module, chip for measuring ECG, memory chip, 2 LED's and 1 button. Minimalism ;D How I imagine this now:
+
+![new](https://github.com/dDenVil/SMAS_as_a_master_work/blob/main/Readme_assets/new.png)
+
+
