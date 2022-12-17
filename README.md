@@ -125,7 +125,7 @@ In many ways, the popularization of the topic is connected with the name of the 
 
 That the topic of lucid dreaming can often be associated with psychics, reality trance, or Dianetics (the pseudoscientific and, in the opinion of many, destructive teachings of **Ron Hubbard**), gives it a mixed reputation. Today, however, this phenomenon is being studied in advanced brain and consciousness sciences—and many people who are fascinated by the question are pursuing this experience for personal purposes.
 
-It is believed that the term **"lucid dream" (LD)** was coined in 1913 by the Dutch psychiatrist and writer** Frederik van Eden**. For a long time, he kept a dream diary, as a result of which he achieved the experience of self-awareness in a dream. He laid out his theory in the article "The Study of Dreams". Neurophysiologist **Nathaniel Kleitman**, who in the 1950s described polyphasic sleep, is already considered the founder of the real scientific study of sleep (which today helps to investigate lucid dreams). He also developed the method of polysomnography - a hardware study of the sleeping state. By analyzing indicators (breathing, snoring, body position, its movements, etc.), the method allows you to create a hypnogram - a visual representation of the structure of sleep
+It is believed that the term **"lucid dream" (LD)** was coined in 1913 by the Dutch psychiatrist and writer **Frederik van Eden**. For a long time, he kept a dream diary, as a result of which he achieved the experience of self-awareness in a dream. He laid out his theory in the article "The Study of Dreams". Neurophysiologist **Nathaniel Kleitman**, who in the 1950s described polyphasic sleep, is already considered the founder of the real scientific study of sleep (which today helps to investigate lucid dreams). He also developed the method of polysomnography - a hardware study of the sleeping state. By analyzing indicators (breathing, snoring, body position, its movements, etc.), the method allows you to create a hypnogram - a visual representation of the structure of sleep
 
 ### Oneironautics
 
@@ -137,7 +137,7 @@ space and time, **Niels Bohr** saw the structure of the atom, and **Fleming** sa
 
 ### Techniques of lucid dreams
 
-There are many techniques that recommend what to do to enter a lucid dream. First of all, the techniques of getting into the LD are divided into** direct** (controlled regulation of consciousness) and **indirect** (self-programming methods) techniques. **Let's consider a few of them:**
+There are many techniques that recommend what to do to enter a lucid dream. First of all, the techniques of getting into the LD are divided into **direct** (controlled regulation of consciousness) and **indirect** (self-programming methods) techniques. **Let's consider a few of them:**
 - **Pendulum technique**. This technique is well depicted in the 2010 film "Inception", where the reality check is a kind of pendulum, or as in the film, a jig that lets you know if you're asleep or not. In real life, it can be any small object that a person carries with him and makes a habit of checking it for reality very often. This technique requires the formation of a habit, which can take from 1 month and does not guarantee the result.
 - **M.Raduga's technique**, which requires waking up after 6 hours of sleep, and after some time awake from 3 to 30 minutes, you need to go to sleep with the concentration of attention on waking up without moving the physical body. For better separation, there are techniques: swimming, rotation, observation of images, visualization of hands, phantom rocking. Up to 6 cycles of awakening can occur in one night. 
 - **The method of concentrating attention on the physical body**. In this technique, during falling asleep, you need to relax as much as possible and observe
@@ -209,13 +209,13 @@ I wanted to order PCB from JLCPCB, but with war that had started in my country i
 
 **Steps of making PCB with iron method:**
 
-•** Printing** – it is necessary to print the diluted scheme in certain parameters (reflection, size, color, quality) on a newspaper with glossy paper;
+• **Printing** – it is necessary to print the diluted scheme in certain parameters (reflection, size, color, quality) on a newspaper with glossy paper;
 • **Preparation of textolite** - surface cleaning with sandpaper and degreasing with alcohol or acetone;
 • **Toner transfer** – the printed image is applied to the copper side of the textolite and transferred with an iron, ironing the newspaper for 30 seconds;
 • **Removing the newspaper** - the workpiece must be placed in water to soak the newspaper, to separate the paper from the textolite;
 • **Correction** - areas where the toner is poorly applied or absent must be painted over with a marker, or as in my case, contour paint for stained glass windows, which will better protect the copper layer.
 • **Etching of tracks** – a solution for etching copper is prepared with 100 ml of hydrogen peroxide, 5 g of salt and 30 g of citric acid;
-• **Toner removal **– all available methods were used, namely sodium hydroxide, acetone, sandpaper to remove the toner that protected the copper tracks from etching.
+• **Toner removal** – all available methods were used, namely sodium hydroxide, acetone, sandpaper to remove the toner that protected the copper tracks from etching.
 • **Drilling holes**.
 
 ![Steps](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/steps.png)
