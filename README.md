@@ -209,14 +209,14 @@ I wanted to order PCB from JLCPCB, but with war that had started in my country i
 
 **Steps of making PCB with iron method:**
 
-• **Printing** – it is necessary to print the diluted scheme in certain parameters (reflection, size, color, quality) on a newspaper with glossy paper;
-• **Preparation of textolite** - surface cleaning with sandpaper and degreasing with alcohol or acetone;
-• **Toner transfer** – the printed image is applied to the copper side of the textolite and transferred with an iron, ironing the newspaper for 30 seconds;
-• **Removing the newspaper** - the workpiece must be placed in water to soak the newspaper, to separate the paper from the textolite;
-• **Correction** - areas where the toner is poorly applied or absent must be painted over with a marker, or as in my case, contour paint for stained glass windows, which will better protect the copper layer.
-• **Etching of tracks** – a solution for etching copper is prepared with 100 ml of hydrogen peroxide, 5 g of salt and 30 g of citric acid;
-• **Toner removal** – all available methods were used, namely sodium hydroxide, acetone, sandpaper to remove the toner that protected the copper tracks from etching.
-• **Drilling holes**.
+• **Printing** – it is necessary to print the diluted scheme in certain parameters (reflection, size, color, quality) on a newspaper with glossy paper;     
+• **Preparation of textolite** - surface cleaning with sandpaper and degreasing with alcohol or acetone;     
+• **Toner transfer** – the printed image is applied to the copper side of the textolite and transferred with an iron, ironing the newspaper for 30 seconds;    
+• **Removing the newspaper** - the workpiece must be placed in water to soak the newspaper, to separate the paper from the textolite;      
+• **Correction** - areas where the toner is poorly applied or absent must be painted over with a marker, or as in my case, contour paint for stained glass windows, which will better protect the copper layer;      
+• **Etching of tracks** – a solution for etching copper is prepared with 100 ml of hydrogen peroxide, 5 g of salt and 30 g of citric acid;      
+• **Toner removal** – all available methods were used, namely sodium hydroxide, acetone, sandpaper to remove the toner that protected the copper tracks from etching;      
+• **Drilling holes**.      
 
 ![Steps](https://github.com/dDenVil/SMAS_master_work/blob/main/Readme_assets/steps.png)
 
@@ -228,7 +228,7 @@ The ready prototype is looking like this:
 # SOFTWARE
 
 To create a SMAS system, you will need software code that will connect all the modules, manage them, calculate the received data and send them. This will be a very large code for me, so I will try to break each part into as many functions as possible. **Let's define the main components of part of the code:**
-- Connecting the time module;
+- Connecting the time module;  
 - Connecting the SD card module (writing and reading);
 - Connection of the shift register;
 - Internet connection;
