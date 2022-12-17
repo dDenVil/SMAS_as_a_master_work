@@ -1,0 +1,671 @@
+#include <NTPClient.h>
+#include <ESP8266WiFi.h> // предоставляет специальные процедуры Wi-Fi для ESP8266, которые мы вызываем для подключения к сети
+#include <ESP8266WebServer.h>
+#include <WiFiUdp.h> // обрабатывает отправку и получение пакетов UDP
+#include <SPI.h>  //SD
+#include <SD.h>
+#include <Wire.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+#define SCREEN_WIDTH 128 //--> OLED display width, in pixels
+#define SCREEN_HEIGHT 64 //--> OLED display height, in pixels
+#define OLED_RESET     -1 // Reset pin # (or -1 if sharing Arduino reset pin)
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
+File myFile;
+File root;
+
+ESP8266WebServer server(80);
+int LED1status=0;
+int LED2status=1;
+String Time="00-00-00";
+String date="1970-10-10";
+//--------------------
+#include "DHT.h"
+DHT dht(0, DHT11); // pin and type
+
+struct DHTsens {
+   float temp;
+   float hum;
+   float heat;
+};
+
+
+int speakerPin = D0;
+int length = 15; // число нот
+char notes[] = "ccggaagffeeddc "; // сохраняем ноты как массив символов
+int beats[] = { 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 2, 4 }; // массив временных промежутков
+int tempo = 100;
+//--------------------
+const char *ssid     = "Kos";
+const char *password = "73749901";
+WiFiUDP ntpUDP;
+NTPClient timeClient(ntpUDP, "europe.pool.ntp.org", 19800,60000);
+String arr_days[]={"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
+String date_time;
+
+const int latchPin = 2; // pin D8 on NodeMCU boards  ST_CP  (SS) =RCLK
+const int clockPin = 14; // pin D5 on NodeMCU boards  SH_CP    (SCK)  = SRCLK
+const int dataPin = 13; // pin D7 on NodeMCU           SD  (MOSI) 
+const int CS_SD=15;   //CS for SD-card
+int LED[8];
+int num=0;
+int num2=0;
+boolean doit=0;
+uint32_t tmr1;  //to write data every1 sec
+
+
+  int Data;
+  int filtered;
+  int filtered1;
+  int filtered2;
+  int filtered3;
+  int filtered4;
+  uint32_t  trig=0;   //for pause func millis   unsigned long
+  uint32_t trig1=0;
+  uint32_t trig2=0;
+  uint32_t mil=0;
+  
+  int pulsepick[10];
+  int pulse=0;
+  int BPM=0;
+  int pulseRR=0;
+  uint32_t pulsetmr=0;
+  int medRR=800;
+  int filtered5=0;
+  int ammo=340;   // amount of reduced data
+  boolean w8pls=0;
+  int LOG[174];
+  int ECG100=0;
+  
+  uint32_t tr1=0;
+  uint32_t tr2=0;
+  uint32_t currmil=0;
+  int mini;
+  int maxi;
+  
+  const int NUM_READ = 5;  //кількість відліків для згладжування
+  //для фильтров
+  float k = 0.8;  // коэффициент фильтрации, 0.0-1.0
+  float _err_measure = 30;  // примерный шум измерений
+  float _q = 0.80;   // скорость изменения значений 0.001-1, варьировать самому
+  int coef=14;
+
+
+
+  unsigned long previousMillisGetHR = 0; //--> will store the last time Millis (to get Heartbeat) was updated.
+  unsigned long previousMillisResultHR = 0; //--> will store the last time Millis (to get BPM) was updated.
+ // const long intervalGetHR = 20; //--> Interval for reading heart rate (Heartbeat) = 10ms.
+ // const long intervalResultHR = 5000; //--> The reading interval for the result of the Heart Rate calculation is in 10 seconds.
+  int x=0;
+  int y=0;
+  int lastx=0; 
+  int lasty=0;
+  
+  float h=0;
+  float t=0;
+  float hic=0;
+  uint32_t dh=0;
+
+const unsigned char Heart_Icon [] PROGMEM = { //16x16
+  0x18, 0x38, 0x7e, 0x7e, 0x7f, 0xfe, 0x7f, 0xff, 0xff, 0xff, 0x7f, 0xff, 0x7f, 0xfe, 0x7f, 0xfe, 
+  0x3f, 0xfc, 0x1f, 0xfc, 0x1f, 0xf8, 0x0f, 0xf0, 0x07, 0xe0, 0x03, 0xc0, 0x01, 0x80, 0x00, 0x00};
+  const unsigned char cloud [] PROGMEM = { // 24x16px
+  0x00, 0x70, 0x00, 0x01, 0xfc, 0x00, 0x03, 0xfe, 0x00, 0x03, 0xff, 0x00, 0x07, 0xff, 0x80, 0x07, 
+  0xff, 0xf0, 0x1f, 0xff, 0xf8, 0x3f, 0xff, 0xf8, 0x7f, 0xff, 0xf8, 0xff, 0xff, 0xfc, 0xff, 0xff, 
+  0xfe, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x7f, 0xff, 0xfe, 0x7f, 0xff, 0xfe, 0x1f, 0xff, 0xf8};
+  const unsigned char alarm [] PROGMEM = {  //16x16
+  0x00, 0x00, 0x01, 0x80, 0x17, 0xe8, 0x0f, 0xf0, 0x2f, 0xf4, 0x0f, 0xf0, 0x0f, 0xf0, 0x0f, 0xf0, 
+  0x0f, 0xf0, 0x1f, 0xf8, 0x1f, 0xf8, 0x3f, 0xfc, 0x7f, 0xfe, 0x00, 0x00, 0x01, 0x80, 0x01, 0x80};
+  const unsigned char moon [] PROGMEM = { //16х16
+  0x00, 0x30, 0x00, 0x38, 0x1f, 0x1c, 0x1f, 0x1e, 0x3e, 0x1e, 0x7f, 0x1f, 0x1f, 0x3f, 0x1c, 0x3f, 
+  0x08, 0x7f, 0x00, 0xff, 0xc3, 0xff, 0xff, 0xfe, 0x7f, 0xfe, 0x3f, 0xfc, 0x1f, 0xf8, 0x07, 0xe0};
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------
+void setup() {
+   pinMode(speakerPin, OUTPUT);
+  Serial.begin(115200);
+  dht.begin();    
+  pinMode(latchPin, OUTPUT);
+  pinMode(clockPin, OUTPUT);
+  pinMode(dataPin, OUTPUT);
+  SPI.begin();
+
+  //randomSeed(analogRead(A0));
+  digitalWrite(latchPin, LOW);
+  SPI.transfer(0);  //send 0 to shift reg
+  digitalWrite(latchPin, HIGH);
+  //----------------------- 
+  if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { 
+  Serial.println(F("SSD1306 allocation failed"));
+  for(;;); 
+  }
+ //----------------------- 
+  display.clearDisplay();
+  display.setTextSize(2);             // Normal 1:1 pixel scale
+  display.setTextColor(SSD1306_WHITE);        // Draw white text
+  display.setCursor(20,25);             // Start at top-left corner         //128x64
+  display.println(F("WI-FI..."));
+  display.setTextSize(1); 
+  display.setCursor(20,10);             // Start at top-left corner         //128x64
+  display.println(F("Connecting to"));
+  display.display();
+
+  
+    WiFi.begin(ssid, password);
+  while ( WiFi.status() != WL_CONNECTED ) {
+    delay ( 500 );
+    Serial.print ( "." );
+  }
+  timeClient.begin();
+  timeClient.setTimeOffset (10800);  //7200
+  Serial.println("Connected to WIFI");
+ //-----------------------  
+  for (int i = 0; i < length; i++) {
+    if (notes[i] == ' ') {
+      delay(beats[i] * tempo); // rest
+    } else {
+      playNote(notes[i], beats[i] * tempo);
+    }
+    // pause between notes
+    delay(tempo / 2); 
+    }
+    digitalWrite(speakerPin, HIGH);  
+ //----------------------- 
+  Serial.print("Got IP: ");  Serial.println(WiFi.localIP());
+  server.on("/", handle_OnConnect);
+  server.onNotFound(handle_NotFound);
+  server.begin();
+  Serial.println("HTTP server started");
+ //----------------------- 
+   Serial.print("Initializing SD card...");
+  if (!SD.begin(CS_SD)) {
+    Serial.println("initialization failed!");
+    //return;                                             //код продовжується!!!!
+  }
+  else {
+  Serial.println("initialization done.");
+  root = SD.open("/");
+  printDirectory(root, 0); }
+ //----------------------- 
+
+  heart();
+  display.clearDisplay();
+  display.drawLine(0, 43, 127, 43, WHITE); // drawLine(x1, y1, x2, y2, color)
+  display.drawBitmap(0, 47, Heart_Icon, 16, 16, WHITE);
+ // display.setTextSize(2);
+  display.setTextColor(WHITE);
+  display.setCursor(20, 47); //--> (x position, y position)
+  display.setTextSize(1);
+  display.print("Please");
+  display.setCursor(24, 55);
+  display.print("wait");
+  display.drawBitmap(72, 47, moon, 16, 16, WHITE);
+  display.drawBitmap(100, 47, alarm, 16, 16, WHITE);
+  display.display(); 
+  trig2=millis(); 
+}
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+void loop() {
+server.handleClient();  
+
+if (millis()>=trig2+5000) loop1();  
+}
+
+void loop1() {
+  
+                       
+
+       
+    if (Serial.available()) {       // serial ask       
+      int k = Serial.parseInt();  
+      display.fillRect(0, 46, 128, 18, BLACK);
+      display.setTextSize(2);
+      display.setTextColor(WHITE);
+      display.setCursor(0, 47); //--> (x position, y position)
+      display.setTextSize(2);
+      display.print("Saving data");
+      display.display(); ; 
+      for(int i=0;i<=3000;i++) {
+      DrawGraph(analogRead(A0));  
+      delay(10);
+      Serial.println(i);
+      }    
+      }
+//---------------------------------------------------------------------------------------------
+currmil=millis(); 
+
+if (currmil-trig1>=10) {       //every 10 ms
+  trig1=currmil;
+  Data= analogRead(A0);
+  yield();
+  ruhere();         //to chech if the sensor connected/ If no: NO SIGNAL
+  if (Data<=100 || Data>=1200) {   //jumping data
+    DrawGraph(Data);
+    BPM=0;
+    mil=currmil;
+if (w8pls==0) {
+  display.fillRect(0, 46, 128, 18, BLACK);
+  display.setTextSize(2);
+  display.setTextColor(WHITE);
+  display.setCursor(0, 47); //--> (x position, y position)
+  display.setTextSize(2);
+  display.print("Don't move");
+  display.display(); ; 
+  w8pls=1;
+}
+
+  }
+  else{   //if normal data
+    if (currmil-mil>=1000 && tr2==1) {     //розрахунок відбудеться через 1 сек якщо дані сильно скакали
+    w8pls=0;                     //tr2==1 if there is connetcted sensor
+    measure();
+    DrawGraph(filtered3);
+        if(currmil>=15000) {   //only after 70sec to show BPM
+          GetHeartRate();
+          heartclick();
+        }
+    }   
+  }
+
+  //for (int i=0; i<=100;i++) {  // save data to []
+    
+    LOG[ECG100]=filtered3;
+   // if (ECG100<=100) ECG100++;                 //записуємо масив даних вимірювання
+    ECG100++; 
+  //}                                   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+}  
+
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+if (millis()-tmr1>=5000) {   
+ tmr1=millis();
+ 
+ while(!timeClient.update()) {
+    timeClient.forceUpdate();
+  }
+  int hh = timeClient.getHours();
+  int mm = timeClient.getMinutes();
+  int ss = timeClient.getSeconds();
+
+  date_time = timeClient.getFormattedDate();
+  int index_date = date_time.indexOf("T");
+  String date = date_time.substring(0, index_date);
+  int month = (date_time.substring(index_date-5, index_date-3)).toInt();
+  int day = (date_time.substring(index_date-2, index_date)).toInt();
+
+  int index_time = date_time.indexOf("Z");
+    
+  String Time = date_time.substring(index_date+1, index_time);
+  String Date_Time = date+String("=")+Time; 
+  Serial.println(Date_Time);
+  //Serial.println(date_time);
+ 
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+DHTsens THI; THI=compute();
+String DHTs= String(THI.temp)+String("-")+String(THI.hum)+String("-")+String(THI.heat);
+//Serial.println(DHTs);
+
+String Fname=FileName(day, month, hh);   // name of file
+//Serial.println(Fname);
+//int pulse=random(60,80);
+int loglen=sizeof(LOG)/sizeof(LOG[0]);
+
+ writeSD (Fname, Date_Time,DHTs,BPM,LOG,loglen);
+
+ for (int i=0; i<loglen; i++)  LOG[i] = 0;  //clear LOG
+ ECG100=0;                                     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+}
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+  if (doit==0) {
+  doit=1;
+  //DHTsens THI; THI=compute();  //temperature sensor
+  //int pp=sizeof(p)/sizeof(p[0]);
+  //writeSD("LED.txt",9,8,p,pp);
+  //readSD("LED.txt"); 
+  //writeSD (char thisFile[], int date, int DHTs,int pulse,int *data, int lendata) 
+  
+   /*
+    Serial.println();
+    Serial.println("LED ORDER:"); 
+    for (int i=0; i<=sizeof(LED)/sizeof(LED[0]);i++) {       //строка столбец
+        digitalWrite(latchPin, LOW);
+         SPI.transfer(LED[i]);
+         digitalWrite(latchPin, HIGH);
+         delay(200);
+         Serial.print(LED[i]);
+         Serial.print(" ");   
+  }
+  */
+  Serial.print("nothing happened");
+  }
+
+
+ 
+}
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------
+ DHTsens compute() {
+ DHTsens THI;
+THI.hum = dht.readHumidity();
+THI.temp = dht.readTemperature();
+THI.heat = dht.computeHeatIndex(THI.temp, THI.hum, false);
+
+if (isnan(THI.hum) || isnan(THI.temp)) {
+    Serial.println(F("Failed to read from DHT sensor!"));
+
+    display.setTextSize(1);          
+    display.setCursor(10,1);         
+    display.println(F("noDHT11"));
+    display.display();
+    
+    THI.hum=0;
+    THI.heat=0;
+    THI.temp=0;
+//    return;
+  }
+  else {
+    Serial.print("T:");
+    Serial.print(THI.temp);
+    Serial.print(" C, H:");
+    Serial.print(THI.hum);
+    Serial.println(" %.");
+  }
+  /*
+  Serial.print(F("Humidity: "));
+  Serial.print( THI.hum);
+  Serial.print(F("%  Temperature: "));
+  Serial.print(THI.temp);
+  Serial.print(F("°C "));
+  Serial.print(F("  Heat index: "));
+  Serial.print(THI.heat);
+  Serial.println(F("°C "));  
+*/
+  return THI;
+}
+
+
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------
+void writeSD (String thisFile, String date, String DHTs,int pulse,int *data, int lendata) {
+     myFile = SD.open(thisFile, FILE_WRITE);
+
+  if (myFile) {
+    Serial.print("ready to write...");
+    myFile.println();
+    myFile.print(date);
+    myFile.print("=");
+    myFile.print(DHTs);
+    myFile.print("=");
+    myFile.print(pulse);
+    myFile.print("=");
+    for (byte i=0; i<lendata;i++) {  //sizeof(data3)/sizeof(data3[0])
+     myFile.print(data[i]);
+     myFile.print(" ");                  //будуть пробіли між вимірювання ЕКГ
+   //  Serial.print(data[i]);
+   //  Serial.print(" ");
+    }
+    myFile.print(";");             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+
+//----------------------------------------                  
+      myFile.close(); 
+
+  display.setTextSize(1);          
+  display.setCursor(110,1);         
+  display.println(F("SD"));
+  display.display();
+        
+      Serial.println("writing...done.");
+   } else {
+       Serial.println("error writeSD");
+  display.setTextSize(1);          
+  display.setCursor(60,1);         
+  display.println(F("noSD"));
+  display.display();
+  } 
+}
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------
+void readSD (char thisFile[]) {
+  String outputString="";
+   myFile = SD.open(thisFile);
+
+  if (myFile) {
+    Serial.println("opened to read");
+   while(myFile.available()){  
+      char thisChar=myFile.read();
+      outputString+=thisChar;
+    
+//----------------------------------------    
+     if (thisChar =='-') {
+      LED[num]=outputString.toInt();
+      // Serial.print(outputString);
+      Serial.print(LED[num]);
+      Serial.print(" ");
+      num=num+1;
+      outputString="";
+     }
+//----------------------------------------
+       
+      if (thisChar ==';') { //'\n'
+          LED[num]=outputString.toInt();  //0000000000000000000000000000000000
+         // Serial.print(outputString);
+         Serial.println(LED[num]);
+          num=0;
+          outputString="";      
+      }
+//----------------------------------------                  
+   }
+      myFile.close(); 
+   } else {
+       Serial.println("error readline");
+  } 
+}
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+void printDirectory(File dir, int numTabs) {
+  while (true) {
+
+    File entry =  dir.openNextFile();
+    if (! entry) {
+      // no more files
+      break;
+    }
+    for (uint8_t i = 0; i < numTabs; i++) {
+      Serial.print('\t');
+    }
+    Serial.print(entry.name());
+    if (entry.isDirectory()) {
+      Serial.println("/");
+      printDirectory(entry, numTabs + 1);
+    } else {
+      // files have sizes, directories do not
+      Serial.print("\t\t");
+      Serial.print(entry.size(), DEC);
+      time_t cr = entry.getCreationTime();
+      time_t lw = entry.getLastWrite();
+      struct tm * tmstruct = localtime(&cr);
+      Serial.printf("\tCREATION: %d-%02d-%02d %02d:%02d:%02d", (tmstruct->tm_year) + 1900, (tmstruct->tm_mon) + 1, tmstruct->tm_mday, tmstruct->tm_hour, tmstruct->tm_min, tmstruct->tm_sec);
+      tmstruct = localtime(&lw);
+      Serial.printf("\tLAST WRITE: %d-%02d-%02d %02d:%02d:%02d\n", (tmstruct->tm_year) + 1900, (tmstruct->tm_mon) + 1, tmstruct->tm_mday, tmstruct->tm_hour, tmstruct->tm_min, tmstruct->tm_sec);
+    }
+    entry.close();
+  }
+}
+//------------------------------------------------------------------------------------
+String FileName(int day, int month, int hh) {
+   String Fname="Night_m"+String(month)+"_d";
+   
+  if (hh>=12 && hh<=23) {
+   Fname=Fname+ String(day);
+  }
+  else if (hh>=0 && hh<=11) {
+  Fname=Fname+ String(day-1);
+
+  }
+  Fname=Fname+".txt";
+  return Fname;
+}
+
+//-----------------------------------------------------------------------------------------
+void measure() {
+
+filtered4=simpleKalman(Data);   // expRunningAverage
+filtered=expRunningAverage(filtered4);
+filtered1=(6 * filtered1 + 2*Data) >> 3; //
+filtered2 = (7 * filtered2 + filtered1) >> 3; // цілочисельний фільтр
+filtered3=filtered-filtered2;
+  
+for (int i=9; i>=0; i--) {
+  pulsepick[i+1]=pulsepick[i];
+}
+pulsepick[0]=Data;
+
+ if (pulsepick[1]+100<=pulsepick[5] && pulsepick[9]+100<=pulsepick[5]) {
+       unsigned long currenttmr=millis();
+       if (currenttmr-pulsetmr>=300) {  //300ms = mean max BPM=200
+      pulse=1000;
+      pulseRR=currenttmr-pulsetmr;
+      pulsetmr=currenttmr;
+        if (pulseRR>=medRR*2) { pulseRR=700; }        //коеф 2, якщо різниця пульсу велика буде = 85 BPM
+      medRR=runMiddleArifm(pulseRR);                  // по 5 відлікам знаходить середнє і порівнює до поточного
+      }
+ }
+   else {pulse=10;  }
+   BPM= (long)60000/medRR;
+
+  if (filtered3 < -200) filtered3 = -200;
+  if (filtered3 > 200) filtered3 = 200;
+filtered3=map(filtered3, -200, 200, -1000,1400);
+
+  }
+
+//-------------------------------------------------------------------
+void pause() {
+  if (millis()-trig>=10000) {
+trig=millis();
+  delay(2000); 
+  }
+}
+//-------------------------------------------------------------------
+void ruhere() {
+  if (currmil-tr1<=2000){
+  mini=min(Data,mini);
+  maxi=max(Data,maxi);
+  }
+  else {
+      if (maxi-mini<=250 ) {
+      BPM=0;
+      tr2=0;
+      display.fillRect(0, 46, 128, 18, BLACK);
+      display.setTextSize(2);
+      display.setTextColor(WHITE);
+      display.setCursor(0, 47); //--> (x position, y position)
+      display.setTextSize(2);
+      display.print("No signal!");
+      display.display();  
+    }
+    else { tr2=1; }
+    mini=1000;
+    maxi=0;
+    tr1=currmil;
+  }  
+}
+
+void handle_OnConnect() 
+{
+  Serial.println("Welcome a guest on a WEB");
+
+  
+  int hh = timeClient.getHours();
+  int mm = timeClient.getMinutes();
+  int ss = timeClient.getSeconds();
+  int index_date = date_time.indexOf("T");
+  String date = date_time.substring(0, index_date);
+  int month = (date_time.substring(index_date-5, index_date-3)).toInt();
+  int day = (date_time.substring(index_date-2, index_date)).toInt();
+
+  String Time = String(hh)+String("-")+String(mm)+String("-")+String(ss);
+  String Date_Time = date+String("=")+Time; 
+  
+  DHTsens THI; THI=compute();
+  
+  server.send(200, "text/html", SendHTML(LED1status,LED2status,BPM,Time,date,THI.temp,THI.hum)); 
+}
+
+void handle_NotFound()
+{
+  server.send(404, "text/plain", "Not found");
+}
+
+String SendHTML(uint8_t led1stat,uint8_t led2stat,int vari,String curtime,String curdate, float temp, float hum)
+{
+  String ptr = "<!DOCTYPE html> <html>\n";
+  ptr +="<head><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\">\n";
+  
+  //ptr +="<meta http-equiv=refresh content=2 >";
+  
+  ptr +="<title>SMAS</title>\n";
+  ptr +="<style>html { font-family: Helvetica; display: inline-block; margin: 0px auto; text-align: center;}\n";
+  ptr +="body{margin-top: 50px;} h1 {color: #444444;margin: 50px auto 30px;} h3 {color: #444444;margin-bottom: 50px;}\n";
+  ptr +=".button {display: block;width: 80px;background-color: #1abc9c;border: none;color: white;padding: 13px 30px;text-decoration: none;font-size: 25px;margin: 0px auto 35px;cursor: pointer;border-radius: 4px;}\n";
+  ptr +=".button-on {background-color: #1abc9c;}\n";
+  ptr +=".button-on:active {background-color: #16a085;}\n";
+  ptr +=".button-off {background-color: #34495e;}\n";
+  ptr +=".button-off:active {background-color: #2c3e50;}\n";
+  ptr +="p {font-size: 14px;color: #888;margin-bottom: 10px;}\n";
+  ptr +="</style>\n";
+  ptr +="</head>\n";
+  ptr +="<body>\n";
+  ptr +="<h1>Sleep Monitoring and Analysis System</h1>\n";
+  //ptr +="<h2>Web connection</h2>\n";
+
+  ptr +="<h3> Time:";
+  ptr +=String(curtime);
+  ptr +="          Date:";
+  ptr +=String(curdate);
+  ptr +="</h3>\n";
+  ptr +="<h2>Current BPM:";
+  ptr +=String(vari);
+  ptr +="</h2>\n";
+  ptr +="<h2>Temperature:";
+  ptr +=String(temp);
+  ptr +="*C       Humidity:";
+  ptr +=String(hum);
+  ptr +="%</h2>\n";
+  
+  if(led1stat)
+    ptr +="<p>Biosleep alarm: </p><a class=\"button button-off\" href=\"/led1off\">OFF</a>\n";
+  else
+    ptr +="<p>Biosleep alarm: </p><a class=\"button button-on\" href=\"/led1on\">ON</a>\n";
+
+  if(led2stat)
+    ptr +="<p>Lucid dreams: </p><a class=\"button button-off\" href=\"/led2off\">OFF</a>\n";
+  else
+    ptr +="<p>Lucid dreams: </p><a class=\"button button-on\" href=\"/led2on\">ON</a>\n";
+
+ptr+= "<p><img src=https://images.ctfassets.net/v3n26e09qg2r/5wEjv9rYOwm7693qRLZ35Q/c03e8e251ead2315912e23b88daafa54/sleep_hygiene_social_1200.png?w=600&q=75 alt=Sleep></p>";
+  ptr +="</body>\n";
+  ptr +="</html>\n";
+  return ptr;
+}
+
+
+void playTone(int tone, int duration) {
+  for (long i = 0; i < duration * 1000L; i += tone * 2) {
+    digitalWrite(speakerPin, HIGH);
+    delayMicroseconds(tone);
+    digitalWrite(speakerPin, LOW);
+    delayMicroseconds(tone);
+  }
+}
+
+void playNote(char note, int duration) {
+  char names[] = { 'c', 'd', 'e', 'f', 'g', 'a', 'b', 'C' };
+  int tones[] = { 1915, 1700, 1519, 1432, 1275, 1136, 1014, 956 };
+
+  // play the tone corresponding to the note name
+  for (int i = 0; i < 8; i++) {
+    if (names[i] == note) {
+      playTone(tones[i], duration);
+    }
+  }
+}

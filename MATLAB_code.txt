@@ -1,0 +1,98 @@
+close all; clear all; clc;
+%%
+
+%data=cell2mat(table2cell(data1));
+%date=data1(:,1);
+%date1=cell2mat(date);
+
+%%
+
+% sourse='C:\Users\dDenVil\Desktop\Night_m4_d6.txt';
+% fid=fopen(sourse,'r');
+% 
+%                   %date      |    time      |    DHT11      |BPM|  ECG....   
+% log=fscanf(fid,'%d - %d - %d = %d - %d - %d = %g - %g - %g = %d = %d ', inf)';
+% fclose(fid);
+
+%%
+
+log=readtable('C:\Users\dDenVil\Desktop\Night_m4_d7.txt');
+
+date=string(table2array(log(1,1)));
+
+
+%log1=replace(log(:,1),"-",",");
+time=table2array(log(:,2));
+DHT11=table2array(log(:,3));
+BPM=table2array(log(:,4));
+ECG=table2array(log(:,5));
+
+ADHT11=replace(DHT11, "-"," ");
+BDHT11=split(ADHT11);  % temp hum index
+
+%Atime=replace(time, "-",":");
+t=datenum(time, 'HH:MM:SS');
+
+
+temp=cell2mat(table2cell(array2table(BDHT11(:,1))));
+hum=cell2mat(table2cell(array2table(BDHT11(:,2))));
+heat=cell2mat(table2cell(array2table(BDHT11(:,3))));
+
+for i=1:length(BPM)
+ temp1(i)=str2num(temp(i,:));
+ hum1(i)=str2num(hum(i,:));
+ heat1(i)=str2num(heat(i,:));
+end
+
+
+for i=1:length(ECG)
+ECG1=table2array(ECG(i));
+ECG2=str2num(ECG1);
+
+for ii=1:100
+FULL_ECG(ii+(i-1)*100)=ECG2(ii);
+end
+end
+
+
+figure('Name','DHT11','NumberTitle','off');
+hold on
+subplot(2,1,1);
+title(['Вимірювання з датчику DHT11', date]);
+hold on
+grid on;
+plot(t,temp1,'r');
+plot(t,heat1, 'y');
+datetick('x', 'HH:MM:SS', 'keeplimits');
+legend('Температура ','Тепловий індекс'); 
+xlabel('t, hh:mm:ss');
+ylabel('T, ^oC');
+subplot(2,1,2);
+plot(t,hum1,'b');
+ datetick('x', 'HH:MM:SS', 'keeplimits');
+legend('Відносна вологість');
+grid on;
+xlabel('t, hh:mm:ss');
+ylabel('H,%');
+
+
+
+figure('Name','BPM','NumberTitle','off');   
+plot(t,BPM);
+hold on; 
+datetick('x', 'HH:MM:SS', 'keeplimits');
+grid on;
+title(['Графік пульсу', date]);
+xlabel('t, hh:mm:ss');
+ylabel('ЧСС');
+
+
+
+figure('Name','ECG','NumberTitle','off');
+XTimes = seconds(0.01:0.01:length(ECG));
+plot(XTimes,FULL_ECG)
+hold on; 
+grid on;
+title(['Графік ЕКГ', date]);
+xlabel('t, sec');
+ylabel('Амплітуда,мВ');
