@@ -6,32 +6,32 @@ The goal of the project is to develop a sleep analysis system, which will be abl
 
 ## Structure
 
-1. [SLEEP AND DREAMS]()
- 1. [What is polysomnography and hypnogram](#what-is-polysomnography-and-hypnogram)
- 2. [The structure of sleep](#the-structure-of-sleep)
- 3. [Circadian rhythms](#circadian-rhythms)
- 4. [Lucid dreams](#lucid-dreams-ld)
-  1. [Oneironautics](#oneironautics)
-  2. [Techniques of lucid dreams](#techniques-of-lucid-dreams)
+1. [SLEEP AND DREAMS]()     
+     1. [What is polysomnography and hypnogram](#what-is-polysomnography-and-hypnogram)
+     2. [The structure of sleep](#the-structure-of-sleep)
+     3. [Circadian rhythms](#circadian-rhythms)
+     4. [Lucid dreams](#lucid-dreams-ld)
+          1. [Oneironautics](#oneironautics)
+          2. [Techniques of lucid dreams](#techniques-of-lucid-dreams)
 2. [DEVELOPING SMAS](#developing--smas)
 3. [PHYSICAL IMPLEMENTATION OF THE SMAS](#physical-implementation-of-the-smas)
 4. [SOFTWARE](#software)
- 1. [ECG reading and analysis](#ecg-reading-and-analysis)
-  1. [Filtration](#filtration)
-  2. [Finding the pulse rate](#finding-the-pulse-rate)
-  3. [Removal of the harmonic component](#removal-of-the-harmonic-component)
-  4. [Calibration](#calibration)
-  5. [Compression](#compression)
- 2. [Displaying data on the display](#displaying-data-on-the-display)
- 3. [DHT11, RTC module and speaker](#dht11-rtc-module-and-speaker)
- 4. [Working with memory card and recording format](#working-with-memory-card-and-recording-format)
- 5. [Remote control](#remote-control)
- 6. [Actuator control unit (Smart-home)](#actuator-control-unit-smart-home)
-5. [Analysis of measured data](#analysis-of-measured-data)
-6. [Conclusions](#conclusions)
- 1. [Good decisions](#good-decisions)
- 2. [Bad decisions](#bad-decisions)
- 3. [How I would do it now](#how-i-would-do-it-now)
+     1. [ECG reading and analysis](#ecg-reading-and-analysis)
+        1. [Filtration](#filtration)
+        2. [Finding the pulse rate](#finding-the-pulse-rate)
+        3. [Removal of the harmonic component](#removal-of-the-harmonic-component)
+        4. [Calibration](#calibration)
+        5. [Compression](#compression)
+    2. [Displaying data on the display](#displaying-data-on-the-display)
+    3. [DHT11, RTC module and speaker](#dht11-rtc-module-and-speaker)
+    4. [Working with memory card and recording format](#working-with-memory-card-and-recording-format)
+    5. [Remote control](#remote-control)
+    6. [Actuator control unit (Smart-home)](#actuator-control-unit-smart-home)
+5. [ANALYSIS OF MEASURED DATA](#analysis-of-measured-data)
+6. [CONCLUSIONS](#conclusions)
+     1. [Good decisions](#good-decisions)
+     2. [Bad decisions](#bad-decisions)
+     3. [How I would do it now](#how-i-would-do-it-now)
 
 
 ## Automated system for monitoring and analyzing sleep parameters "SMAS"
@@ -370,7 +370,7 @@ In the best case, the sensor system recognizes the fast phase after 5 hours of s
 
 A similar principle must be used to implement the **bio-alarm system**. That is, you need to wake up the person in the nearest time set on the timer during the transition from the first to the second stage of slow sleep. And the awakening can be provided by opening the window blinds, which will allow sunlight to enter the room, by turning on the lighting or by sound indication. In a simple case, it is a timer that opens the blinds at the set time.
 
-# Analysis of measured data
+# ANALYSIS OF MEASURED DATA
 
 The created log created 26728 lines of data in 8 hours of work, and occupies 8.26 MB of memory. That is, a 2 GB memory card is enough for more than 200 nights, where each hour of recording takes about 1 MB of memory.
 
@@ -386,7 +386,7 @@ From the graph, you can see how the temperature and humidity changed during the 
 
 `Zoomed graph of the  ECG measurement`
 
-# Conclusions
+# CONCLUSIONS
 
 Okey, this is what we have in result: 
 - **SMAS** - system of measurement ECG and few other parameters that saves data to SD-card. Displays graph of ECG , connects to Wi-Fi and can be checked through browser. Built on NodeMCU;
