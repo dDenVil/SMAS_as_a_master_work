@@ -394,7 +394,7 @@ Okey, this is what we have in result:
 - **Autuator EMS** - electrical mio-stimulator;
 - **Made 3 PCB's**: SMAS, controller for window blinds, EMS;
 - **Code:** 1030 lines for SMAS, 1000 lines for smart-room;
-- ** Matlab code:** 82 lines, draws graphs of data from SD-card.
+- **Matlab code:** 82 lines, draws graphs of data from SD-card.
 
 So let's dive into decisions that was made, some of them are good and some are bad.
 
