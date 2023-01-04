@@ -1,6 +1,6 @@
 ## A sleep analysis system on NodeMCU as a Master's dissertation
 I just will leave it here :smile: I want to show you how I tried to solve my problem, what I have used and what problems I faced with. And in the end I will sum up what decisions was bad or good during developing the device.
-Also don't pay a lot of attention to the grammar mistakes, mainly I've used Google translator,
+Also don't pay a lot of attention to the grammar mistakes, mainly I've used Google translator. 
 
 The goal of the project is to develop a sleep analysis system, which will be able to measure data of ECG during sleep, analyze heart rate and act in accordance with the specified program. It has to collect data, analyze, store and transfer it to a smartphone. It was looked at and carried out try to create a bio-alarm clock and an alarm clock that helps you to wake up in a dream.
 
